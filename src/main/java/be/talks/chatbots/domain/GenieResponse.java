@@ -1,3 +1,3 @@
 package be.talks.chatbots.domain;
 
-public record GenieResponse(String testCode) { }
+public record GenieResponse(String testCode, String clarification) { }

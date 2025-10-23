@@ -21,7 +21,7 @@ public class ChatBotController {
     @PostMapping("/genie/test")
     public ResponseEntity<GenieResponse> generateTest(@RequestBody GenieRequest request) {
         if (request.code() == null || request.code().isBlank()) {
-            return ResponseEntity.badRequest().body(new GenieResponse("Please provide a Java method."));
+            return ResponseEntity.badRequest().body(new GenieResponse("Please provide a Java method.", null));
         }
         return ResponseEntity.ok(chatBotService.generateJUnitTest(request));
     }

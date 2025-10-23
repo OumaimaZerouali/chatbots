@@ -48,8 +48,14 @@ public class ChatBotService {
         var userMessage = new UserMessage("Generate JUnit tests for:\n```java\n" + request.code() + "\n```");
 
         var prompt = new Prompt(List.of(systemMessage, userMessage));
-        var response = chatModel.call(prompt);
+        var response = chatModel.call(prompt).getResult().getOutput().getText();
 
-        return new GenieResponse(response.getResult().getOutput().toString());
+
+        if (response.contains("I can only generate tests")) {
+            return new GenieResponse(null, response);
+        } else {
+            String codeOnly = response.replaceAll("(?s)```java|```", "").trim();
+            return new GenieResponse(codeOnly, null);
+        }
     }
 }
