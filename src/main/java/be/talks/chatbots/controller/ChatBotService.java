@@ -5,7 +5,7 @@ import be.talks.chatbots.domain.GenieResponse;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +13,12 @@ import java.util.List;
 @Service
 public class ChatBotService {
 
-    private final OpenAiChatModel chatModel;
+    private final OllamaChatModel chatModel;
 
-    public ChatBotService(OpenAiChatModel chatModel) {
+    public ChatBotService(OllamaChatModel chatModel) {
         this.chatModel = chatModel;
     }
+
     public GenieResponse generateJUnitTest(GenieRequest request) {
         var systemPrompt = """
             You are a magical Unit Test Genie.
