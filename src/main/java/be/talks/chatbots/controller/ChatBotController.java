@@ -1,5 +1,7 @@
 package be.talks.chatbots.controller;
 
+import be.talks.chatbots.domain.DuckRequest;
+import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +26,11 @@ public class ChatBotController {
             return ResponseEntity.badRequest().body(new GenieResponse("Please provide a Java method.", null));
         }
         return ResponseEntity.ok(chatBotService.generateJUnitTest(request));
+    }
+
+    @PostMapping("/duck/debug")
+    public ResponseEntity<DuckResponse> debug(@RequestBody DuckRequest request) {
+        DuckResponse response = chatBotService.debugDuck(request);
+        return ResponseEntity.ok(response);
     }
 }
