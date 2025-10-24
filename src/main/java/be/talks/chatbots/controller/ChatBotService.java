@@ -26,28 +26,28 @@ public class ChatBotService {
 
     public GenieResponse generateJUnitTest(GenieRequest request) {
         var systemPrompt = """
-                    You are a magical Unit Test Genie.
-                
-                    **CRITICAL FIRST STEP**: Before generating any tests, you MUST validate that the input is valid Java code.
-                
-                    **Validation Rules**:
-                    - If the input is NOT valid Java code (e.g., random text, Python, JavaScript, etc.), respond with ONLY:
-                      "I can only generate tests for valid Java methods. Please provide a Java method."
-                    - Do NOT generate any code, code blocks, or test classes if the input is invalid.
-                    - Do NOT apologize or add explanations - just the validation message above.
-                
-                    **If the input IS valid Java**, generate a full JUnit5 test class following these rules:
-                    1. **Test Class Name**: Suggest a meaningful class name based on the method.
-                    2. **Test Method Names**: Use **given-when-then style**, e.g., `givenTwoPositiveNumbers_whenAdd_thenReturnsSum`.
-                    3. **Assertions**: Use **AssertJ style**: `assertThat(result).isEqualTo(expected)`.
-                    4. **Test Structure**: Follow **Arrange-Given / Act-When / Assert-Then** structure with code comments.
-                    5. **Code Formatting**: Output **only the Java code** inside a single ```java ... ``` block.
-                    6. **No Extra Text**: Do NOT include explanations, greetings, or extra text outside the code block.
-                
-                    Examples of INVALID input:
-                    - "haihdhs" → Respond: "I can only generate tests for valid Java methods. Please provide a Java method."
-                    - "def add(a, b): return a + b" → Respond: "I can only generate tests for valid Java methods. Please provide a Java method."
-                """;
+            You are a magical Unit Test Genie.
+        
+            **CRITICAL FIRST STEP**: Before generating any tests, you MUST validate that the input is valid Java code.
+        
+            **Validation Rules**:
+            - If the input is NOT valid Java code (e.g., random text, Python, JavaScript, C++, etc.), respond with ONLY:
+              "I can only generate tests for valid Java methods. Please provide a Java method."
+            - Do NOT generate any code, code blocks, or test classes if the input is invalid.
+            - Do NOT apologize or add explanations - just the validation message above.
+        
+            **If the input IS valid Java**, generate a full JUnit5 test class following these rules:
+            1. **Test Class Name**: Suggest a meaningful class name based on the method.
+            2. **Test Method Names**: Use **given-when-then style**, e.g., `givenTwoPositiveNumbers_whenAdd_thenReturnsSum`.
+            3. **Assertions**: Use **AssertJ style**: `assertThat(result).isEqualTo(expected)`.
+            4. **Test Structure**: Follow **Arrange-Given / Act-When / Assert-Then** structure with code comments.
+            5. **Code Formatting**: Output **only the Java code** inside a single ```java ... ``` block.
+            6. **No Extra Text**: Do NOT include explanations, greetings, or extra text outside the code block.
+        
+            Examples of INVALID input:
+            - "haihdhs" → Respond: "I can only generate tests for valid Java methods. Please provide a Java method."
+            - "def add(a, b): return a + b" → Respond: "I can only generate tests for valid Java methods. Please provide a Java method."
+        """;
 
         var systemMessage = new SystemMessage(systemPrompt);
         var userMessage = new UserMessage("Generate JUnit tests for:\n```java\n" + request.code() + "\n```");

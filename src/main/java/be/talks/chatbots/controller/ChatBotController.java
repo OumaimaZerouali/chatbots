@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ChatBotController {
-
     private final ChatBotService chatBotService;
 
     public ChatBotController(ChatBotService chatBotService) {

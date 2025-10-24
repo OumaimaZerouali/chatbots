@@ -1,8 +1,8 @@
-import './App.css'
-import TestGenerator from "./TestGenerator.tsx";
+import React from "react";
+import Dashboard from "./layout/Dashboard";
 
-function App() {
-    return <TestGenerator />;
-}
+const App: React.FC = () => {
+    return <Dashboard />;
+};
 
-export default App
+export default App;
