@@ -4,7 +4,7 @@ const GeniePage: React.FC = () => {
     const [code, setCode] = useState("");
 
     return (
-        <div className="max-w-3xl mx-auto">
+        <div className="p-8 max-w-3xl mx-auto">
             <h2 className="text-3xl font-semibold mb-6">🧞 Genie Test Generator</h2>
             <textarea
                 className="w-full p-4 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"

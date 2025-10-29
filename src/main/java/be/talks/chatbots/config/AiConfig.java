@@ -24,7 +24,6 @@ public class AiConfig {
     @Bean
     public ChatClient chatClient(OllamaChatModel chatModel, ChatMemory chatMemory) {
         var memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
-                .conversationId("conversationId")
                 .build();
 
         return ChatClient.builder(chatModel)

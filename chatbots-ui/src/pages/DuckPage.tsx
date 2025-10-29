@@ -23,7 +23,7 @@ const DuckPage: React.FC = () => {
             const res = await fetch('/api/duck/debug', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ conversationId: '124', requestMessage: text }),
+                body: JSON.stringify({ conversationId: Math.random(), requestMessage: text }),
             })
 
             const json = await res.json();
@@ -40,13 +40,13 @@ const DuckPage: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-[#0f172a] text-white rounded-lg overflow-hidden">
+        <div className="p-8 flex flex-col h-full bg-[#1E2430] text-white rounded-lg overflow-hidden">
             {/* Chat area */}
             <div className="flex-1 p-4 space-y-4 overflow-y-auto">
                 {messages.map((m, i) => (
                     <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                         <div
-                            className={`p-3 rounded-lg w-fit max-w-md ${
+                            className={`p-3 rounded-xl w-fit max-w-md ${
                                 m.role === "user" ? "bg-purple-600" : "bg-[#1e1b4b]"
                             }`}
                         >

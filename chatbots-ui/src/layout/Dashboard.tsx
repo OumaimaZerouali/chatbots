@@ -9,7 +9,7 @@ const Dashboard: React.FC = () => {
     return (
         <div className="flex h-screen bg-gray-100">
             <Sidebar selected={selected} onSelect={setSelected} />
-            <main className="flex-1 p-8 overflow-y-auto">
+            <main className="flex-1 overflow-y-auto">
                 {selected === "genie" && <GeniePage />}
                 {selected === "duck" && <DuckPage />}
             </main>
