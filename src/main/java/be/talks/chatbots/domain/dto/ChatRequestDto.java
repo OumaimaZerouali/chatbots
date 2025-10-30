@@ -1,0 +1,19 @@
+package be.talks.chatbots.domain.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ChatRequestDto {
+
+    private Integer botId;
+    private String conversationId;
+    private String question;
+}
