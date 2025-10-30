@@ -1,5 +1,6 @@
-package be.talks.chatbots.domain;
+package be.talks.chatbots.adapter.repository;
 
+import be.talks.chatbots.domain.ProcessedFile;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class BotConfig {
+public class BotConfigEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

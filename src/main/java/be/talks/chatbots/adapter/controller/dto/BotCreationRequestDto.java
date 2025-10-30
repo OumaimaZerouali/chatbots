@@ -1,4 +1,4 @@
-package be.talks.chatbots.domain.dto;
+package be.talks.chatbots.adapter.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

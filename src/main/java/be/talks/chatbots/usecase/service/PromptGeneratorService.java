@@ -1,13 +1,13 @@
-package be.talks.chatbots.service;
+package be.talks.chatbots.usecase.service;
 
-import be.talks.chatbots.domain.BotConfig;
+import be.talks.chatbots.adapter.repository.BotConfigEntity;
 import be.talks.chatbots.domain.ProcessedFile;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PromptGeneratorService {
 
-    public String generatePrompt(BotConfig config) {
+    public String generatePrompt(BotConfigEntity config) {
         StringBuilder prompt = new StringBuilder();
 
         // Base identity

@@ -1,16 +1,16 @@
-package be.talks.chatbots.controller;
+package be.talks.chatbots.adapter.controller;
 
-import be.talks.chatbots.domain.BotConfig;
+import be.talks.chatbots.adapter.repository.BotConfigEntity;
 import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
-import be.talks.chatbots.domain.dto.BotCreationRequestDto;
-import be.talks.chatbots.domain.dto.BotCreationResponseDto;
-import be.talks.chatbots.domain.dto.ChatRequestDto;
-import be.talks.chatbots.domain.dto.ChatResponseDto;
-import be.talks.chatbots.repository.ChatBotRepository;
-import be.talks.chatbots.service.PromptGeneratorService;
+import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDto;
+import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDto;
+import be.talks.chatbots.adapter.controller.dto.ChatRequestDto;
+import be.talks.chatbots.adapter.controller.dto.ChatResponseDto;
+import be.talks.chatbots.adapter.repository.ChatBotRepository;
+import be.talks.chatbots.usecase.service.PromptGeneratorService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.SystemMessage;
@@ -129,7 +129,7 @@ public class ChatBotService {
     public BotCreationResponseDto createBot(BotCreationRequestDto botCreationRequestDto) {
         String botId = UUID.randomUUID().toString();
 
-        BotConfig config = BotConfig.builder()
+        BotConfigEntity config = BotConfigEntity.builder()
                 .configId(botId)
                 .name(botCreationRequestDto.getName())
                 .personality(botCreationRequestDto.getPersonality())
@@ -162,7 +162,7 @@ public class ChatBotService {
     public ChatResponseDto chat(ChatRequestDto chatRequestDto) {
         String convoId = chatRequestDto.getConversationId();
 
-        BotConfig config = chatBotRepository.findById(chatRequestDto.getBotId()).orElse(null);
+        BotConfigEntity config = chatBotRepository.findById(chatRequestDto.getBotId()).orElse(null);
 
         if (config == null) {
             throw new EntityNotFoundException("BotConfig not found for id: " + chatRequestDto.getBotId());

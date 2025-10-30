@@ -1,10 +1,10 @@
-package be.talks.chatbots.service;
+package be.talks.chatbots.usecase.service;
 
 import be.talks.chatbots.domain.ProcessedFile;
-import be.talks.chatbots.service.utils.CodeParser;
-import be.talks.chatbots.service.utils.CsvParser;
-import be.talks.chatbots.service.utils.DocxExtractor;
-import be.talks.chatbots.service.utils.PdfExtractor;
+import be.talks.chatbots.utils.CodeParser;
+import be.talks.chatbots.utils.CsvParser;
+import be.talks.chatbots.utils.DocxExtractor;
+import be.talks.chatbots.utils.PdfExtractor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

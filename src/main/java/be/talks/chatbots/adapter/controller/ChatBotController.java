@@ -1,28 +1,25 @@
-package be.talks.chatbots.controller;
+package be.talks.chatbots.adapter.controller;
 
 import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
-import be.talks.chatbots.domain.dto.BotCreationRequestDto;
-import be.talks.chatbots.domain.dto.BotCreationResponseDto;
-import be.talks.chatbots.domain.dto.ChatRequestDto;
-import be.talks.chatbots.domain.dto.ChatResponseDto;
+import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDto;
+import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDto;
+import be.talks.chatbots.adapter.controller.dto.ChatRequestDto;
+import be.talks.chatbots.adapter.controller.dto.ChatResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ChatBotController {
     private final ChatBotService chatBotService;
-
-    public ChatBotController(ChatBotService chatBotService) {
-        this.chatBotService = chatBotService;
-    }
 
     @PostMapping("/genie/test")
     public ResponseEntity<GenieResponse> generateTest(@RequestBody GenieRequest request) {

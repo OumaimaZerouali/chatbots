@@ -1,4 +1,4 @@
-package be.talks.chatbots.domain.dto;
+package be.talks.chatbots.adapter.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatResponseDto {
+public class BotCreationResponseDto {
 
+    private String id;
+    private String name;
     private String message;
+    private String systemPrompt;
 }

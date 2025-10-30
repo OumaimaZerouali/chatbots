@@ -1,4 +1,4 @@
-package be.talks.chatbots.service.utils;
+package be.talks.chatbots.utils;
 
 import org.springframework.stereotype.Component;
 
