@@ -50,7 +50,7 @@ const DuckPage: React.FC = () => {
                                 m.role === "user" ? "bg-purple-600" : "bg-[#1e1b4b]"
                             }`}
                         >
-                            <p className="whitespace-pre-wrap">{m.text}</p>
+                            <p className="whitespace-pre-wrap break-words">{m.text}</p>
                             <span
                                 className={`text-xs block mt-1 ${
                                     m.role === "user" ? "text-gray-300 text-right" : "text-gray-400"
