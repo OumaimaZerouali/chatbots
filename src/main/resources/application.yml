@@ -4,6 +4,9 @@ spring:
       chat:
         options:
           model: llama3.2:latest
+      embedding:
+        options:
+          model: nomic-embed-text:latest
   datasource:
     url: jdbc:h2:mem:chatbotdb
     driver-class-name: org.h2.Driver

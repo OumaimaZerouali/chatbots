@@ -1,15 +1,17 @@
 package be.talks.chatbots.adapter.controller;
 
-import be.talks.chatbots.domain.DuckRequest;
-import be.talks.chatbots.domain.DuckResponse;
-import be.talks.chatbots.domain.GenieRequest;
-import be.talks.chatbots.domain.GenieResponse;
 import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDTO;
 import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDTO;
 import be.talks.chatbots.adapter.controller.dto.ChatRequestDTO;
 import be.talks.chatbots.adapter.controller.dto.ChatResponseDTO;
+import be.talks.chatbots.domain.DuckRequest;
+import be.talks.chatbots.domain.DuckResponse;
+import be.talks.chatbots.domain.GenieRequest;
+import be.talks.chatbots.domain.GenieResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class ChatBotController {
+
     private final ChatBotService chatBotService;
 
     @PostMapping("/genie/test")
@@ -35,8 +38,8 @@ public class ChatBotController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/bot-factory")
-    public ResponseEntity<BotCreationResponseDTO> createBot(@RequestBody BotCreationRequestDTO botCreationRequestDto) {
+    @PostMapping(value = "/bot-factory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<BotCreationResponseDTO> createBot(@ModelAttribute BotCreationRequestDTO botCreationRequestDto) {
         BotCreationResponseDTO responseDto = chatBotService.createBot(botCreationRequestDto);
         return ResponseEntity.ok(responseDto);
     }

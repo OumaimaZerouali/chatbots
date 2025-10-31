@@ -1,15 +1,16 @@
 package be.talks.chatbots.adapter.controller;
 
+import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDTO;
 import be.talks.chatbots.adapter.repository.BotConfigEntity;
 import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
-import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDTO;
 import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDTO;
 import be.talks.chatbots.adapter.controller.dto.ChatRequestDTO;
 import be.talks.chatbots.adapter.controller.dto.ChatResponseDTO;
 import be.talks.chatbots.adapter.repository.ChatBotRepository;
+import be.talks.chatbots.usecase.service.FileProcessingService;
 import be.talks.chatbots.usecase.service.PromptGeneratorService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.ai.chat.client.ChatClient;
@@ -135,18 +136,9 @@ public class ChatBotService {
                 .personality(botCreationRequestDto.getPersonality())
                 .purpose(botCreationRequestDto.getPurpose())
                 .restrictions(botCreationRequestDto.getRestrictions())
-                .files(botCreationRequestDto.getFiles())
                 .build();
 
-//        if (botCreationRequestDto.getFiles() != null && !botCreationRequestDto.getFiles().isEmpty()) {
-//            List<ProcessedFile> processedFiles = fileService.processFiles(botCreationRequestDto.files, botId);
-//            config.setProcessedFiles(processedFiles);
-//
-//            // 4. Create embeddings for RAG
-//            embeddingService.createEmbeddings(botId, processedFiles);
-//        }
-
-        String systemPrompt = promptGeneratorService.generatePrompt(config);
+        String systemPrompt = promptGeneratorService.generatePrompt(config, botCreationRequestDto.getFile());
         config.setSystemPrompt(systemPrompt);
 
         chatBotRepository.save(config);

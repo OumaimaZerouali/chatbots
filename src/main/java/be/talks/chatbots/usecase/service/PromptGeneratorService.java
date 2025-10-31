@@ -1,13 +1,17 @@
 package be.talks.chatbots.usecase.service;
 
 import be.talks.chatbots.adapter.repository.BotConfigEntity;
-import be.talks.chatbots.domain.ProcessedFile;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class PromptGeneratorService {
 
-    public String generatePrompt(BotConfigEntity config) {
+    private final FileProcessingService fileProcessingService;
+
+    public String generatePrompt(BotConfigEntity config, MultipartFile file) {
         StringBuilder prompt = new StringBuilder();
 
         // Base identity
@@ -38,17 +42,13 @@ public class PromptGeneratorService {
         }
 
         // Knowledge base context
-        if (config.getProcessedFiles() != null && !config.getProcessedFiles().isEmpty()) {
+        if (file != null) {
             prompt.append("""
                 
                 You have access to a knowledge base containing:
                 """);
 
-            for (ProcessedFile file : config.getProcessedFiles()) {
-                prompt.append(String.format("- %s (%s)\n",
-                        file.getOriginalFileName(),
-                        file.getType()));
-            }
+            prompt.append(fileProcessingService.processFiles(file));
 
             prompt.append("""
                 

@@ -1,6 +1,5 @@
 package be.talks.chatbots.adapter.repository;
 
-import be.talks.chatbots.domain.ProcessedFile;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,6 +37,4 @@ public class BotConfigEntity {
     private String systemPrompt;
     @Transient
     private List<MultipartFile> files;
-    @Transient
-    private List<ProcessedFile> processedFiles;
 }

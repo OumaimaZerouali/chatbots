@@ -20,5 +20,5 @@ public class BotCreationRequestDTO {
     private String personality;
     private String purpose;
     private String restrictions;
-    private List<MultipartFile> files;
+    private MultipartFile file;
 }
