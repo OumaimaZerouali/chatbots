@@ -4,10 +4,10 @@ import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
-import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDto;
-import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDto;
-import be.talks.chatbots.adapter.controller.dto.ChatRequestDto;
-import be.talks.chatbots.adapter.controller.dto.ChatResponseDto;
+import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDTO;
+import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDTO;
+import be.talks.chatbots.adapter.controller.dto.ChatRequestDTO;
+import be.talks.chatbots.adapter.controller.dto.ChatResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,14 +36,14 @@ public class ChatBotController {
     }
 
     @PostMapping("/bot-factory")
-    public ResponseEntity<BotCreationResponseDto> createBot(@RequestBody BotCreationRequestDto botCreationRequestDto) {
-        BotCreationResponseDto responseDto = chatBotService.createBot(botCreationRequestDto);
+    public ResponseEntity<BotCreationResponseDTO> createBot(@RequestBody BotCreationRequestDTO botCreationRequestDto) {
+        BotCreationResponseDTO responseDto = chatBotService.createBot(botCreationRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping("/chat")
-    public ResponseEntity<ChatResponseDto> chat(@RequestBody ChatRequestDto chatRequestDto) {
-        ChatResponseDto responseDto = chatBotService.chat(chatRequestDto);
+    public ResponseEntity<ChatResponseDTO> chat(@RequestBody ChatRequestDTO chatRequestDto) {
+        ChatResponseDTO responseDto = chatBotService.chat(chatRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatResponseDto {
+public class ChatResponseDTO {
 
     private String message;
 }

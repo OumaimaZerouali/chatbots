@@ -5,10 +5,10 @@ import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
-import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDto;
-import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDto;
-import be.talks.chatbots.adapter.controller.dto.ChatRequestDto;
-import be.talks.chatbots.adapter.controller.dto.ChatResponseDto;
+import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDTO;
+import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDTO;
+import be.talks.chatbots.adapter.controller.dto.ChatRequestDTO;
+import be.talks.chatbots.adapter.controller.dto.ChatResponseDTO;
 import be.talks.chatbots.adapter.repository.ChatBotRepository;
 import be.talks.chatbots.usecase.service.PromptGeneratorService;
 import jakarta.persistence.EntityNotFoundException;
@@ -126,7 +126,7 @@ public class ChatBotService {
         return new DuckResponse(reply == null ? "" : reply.trim());
     }
 
-    public BotCreationResponseDto createBot(BotCreationRequestDto botCreationRequestDto) {
+    public BotCreationResponseDTO createBot(BotCreationRequestDTO botCreationRequestDto) {
         String botId = UUID.randomUUID().toString();
 
         BotConfigEntity config = BotConfigEntity.builder()
@@ -151,7 +151,7 @@ public class ChatBotService {
 
         chatBotRepository.save(config);
 
-        return BotCreationResponseDto.builder()
+        return BotCreationResponseDTO.builder()
                 .id(botId)
                 .name(botCreationRequestDto.getName())
                 .message("Bot created successfully! Start chatting!")
@@ -159,7 +159,7 @@ public class ChatBotService {
                 .build();
     }
 
-    public ChatResponseDto chat(ChatRequestDto chatRequestDto) {
+    public ChatResponseDTO chat(ChatRequestDTO chatRequestDto) {
         String convoId = chatRequestDto.getConversationId();
 
         BotConfigEntity config = chatBotRepository.findById(chatRequestDto.getBotId()).orElse(null);
@@ -176,7 +176,7 @@ public class ChatBotService {
                 .call()
                 .content();
 
-        return ChatResponseDto.builder()
+        return ChatResponseDTO.builder()
                 .message(reply == null ? "" : reply.trim())
                 .build();
     }

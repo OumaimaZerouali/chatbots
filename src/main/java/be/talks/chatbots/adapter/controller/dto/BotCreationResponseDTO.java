@@ -11,9 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatRequestDto {
+public class BotCreationResponseDTO {
 
-    private Integer botId;
-    private String conversationId;
-    private String question;
+    private String id;
+    private String name;
+    private String message;
+    private String systemPrompt;
 }

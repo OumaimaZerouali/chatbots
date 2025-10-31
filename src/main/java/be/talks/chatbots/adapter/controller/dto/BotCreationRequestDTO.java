@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BotCreationRequestDto {
+public class BotCreationRequestDTO {
 
     private String name;
     private String personality;
