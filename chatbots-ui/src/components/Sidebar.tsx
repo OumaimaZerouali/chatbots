@@ -9,6 +9,8 @@ const Sidebar: React.FC<SidebarProps> = ({ selected, onSelect }) => {
     const menu = [
         { id: "genie", label: "🧞 Genie Test Generator" },
         { id: "duck", label: "🦆 Duck Debugger" },
+        { id: "factory", label: "🏭 Bot Factory" },
+        { id: "mybots", label: "🤖 My Bots" },
     ];
 
     return (

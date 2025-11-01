@@ -31,7 +31,7 @@ const GeniePage: React.FC = () => {
 
     return (
         <div className="p-8 flex flex-col h-full bg-[#1E2430] text-white rounded-lg overflow-hidden">
-            <h2 className="text-3xl font-semibold mb-6">🧞 Genie Test Generator</h2>
+            <h2 className="text-3xl font-semibold mb-6">Genie Test Generator</h2>
 
             {/* Input area */}
             <div className="mb-4">

@@ -1,16 +1,15 @@
 package be.talks.chatbots.adapter.controller;
 
 import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDTO;
+import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDTO;
+import be.talks.chatbots.adapter.controller.dto.ChatRequestDTO;
+import be.talks.chatbots.adapter.controller.dto.ChatResponseDTO;
 import be.talks.chatbots.adapter.repository.BotConfigEntity;
+import be.talks.chatbots.adapter.repository.ChatBotRepository;
 import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
-import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDTO;
-import be.talks.chatbots.adapter.controller.dto.ChatRequestDTO;
-import be.talks.chatbots.adapter.controller.dto.ChatResponseDTO;
-import be.talks.chatbots.adapter.repository.ChatBotRepository;
-import be.talks.chatbots.usecase.service.FileProcessingService;
 import be.talks.chatbots.usecase.service.PromptGeneratorService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.ai.chat.client.ChatClient;
@@ -34,8 +33,8 @@ public class ChatBotService {
     public ChatBotService(OllamaChatModel chatModel, ChatClient chatClient, PromptGeneratorService promptGeneratorService, ChatBotRepository chatBotRepository) {
         this.chatModel = chatModel;
         this.chatClient = chatClient;
-        this.promptGeneratorService = promptGeneratorService;
         this.chatBotRepository = chatBotRepository;
+        this.promptGeneratorService = promptGeneratorService;
     }
 
     public GenieResponse generateJUnitTest(GenieRequest request) {
@@ -171,5 +170,15 @@ public class ChatBotService {
         return ChatResponseDTO.builder()
                 .message(reply == null ? "" : reply.trim())
                 .build();
+    }
+
+    public List<BotCreationResponseDTO> getAllBots() {
+        return chatBotRepository.findAll().stream()
+                .map(bot -> BotCreationResponseDTO.builder()
+                        .id(String.valueOf(bot.getId()))
+                        .name(bot.getName())
+                        .systemPrompt(bot.getSystemPrompt())
+                        .build())
+                .toList();
     }
 }
