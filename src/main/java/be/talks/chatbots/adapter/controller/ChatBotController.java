@@ -8,6 +8,7 @@ import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
+import be.talks.chatbots.usecase.service.ChatBotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,25 +38,25 @@ public class ChatBotController {
 
     @PostMapping("/duck/debug")
     public ResponseEntity<DuckResponse> debug(@RequestBody DuckRequest request) {
-        DuckResponse response = chatBotService.debugDuck(request);
+        var response = chatBotService.debugDuck(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping(value = "/bot-factory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BotCreationResponseDTO> createBot(@ModelAttribute BotCreationRequestDTO botCreationRequestDto) {
-        BotCreationResponseDTO responseDto = chatBotService.createBot(botCreationRequestDto);
-        return ResponseEntity.ok(responseDto);
+        var response = chatBotService.createBot(botCreationRequestDto);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/chat")
     public ResponseEntity<ChatResponseDTO> chat(@RequestBody ChatRequestDTO chatRequestDto) {
-        ChatResponseDTO responseDto = chatBotService.chat(chatRequestDto);
-        return ResponseEntity.ok(responseDto);
+        var response = chatBotService.chat(chatRequestDto);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/bots")
     public ResponseEntity<List<BotCreationResponseDTO>> getAllBots() {
-        List<BotCreationResponseDTO> bots = chatBotService.getAllBots();
-        return ResponseEntity.ok(bots);
+        var response = chatBotService.getAllBots();
+        return ResponseEntity.ok(response);
     }
 }

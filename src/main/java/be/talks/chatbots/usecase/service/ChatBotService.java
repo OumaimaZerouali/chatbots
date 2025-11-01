@@ -1,4 +1,4 @@
-package be.talks.chatbots.adapter.controller;
+package be.talks.chatbots.usecase.service;
 
 import be.talks.chatbots.adapter.controller.dto.BotCreationRequestDTO;
 import be.talks.chatbots.adapter.controller.dto.BotCreationResponseDTO;
@@ -10,7 +10,6 @@ import be.talks.chatbots.domain.DuckRequest;
 import be.talks.chatbots.domain.DuckResponse;
 import be.talks.chatbots.domain.GenieRequest;
 import be.talks.chatbots.domain.GenieResponse;
-import be.talks.chatbots.usecase.service.PromptGeneratorService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.SystemMessage;
@@ -25,10 +24,10 @@ import java.util.UUID;
 @Service
 public class ChatBotService {
 
-    private final OllamaChatModel chatModel;
     private final ChatClient chatClient;
-    private final PromptGeneratorService promptGeneratorService;
+    private final OllamaChatModel chatModel;
     private final ChatBotRepository chatBotRepository;
+    private final PromptGeneratorService promptGeneratorService;
 
     public ChatBotService(OllamaChatModel chatModel, ChatClient chatClient, PromptGeneratorService promptGeneratorService, ChatBotRepository chatBotRepository) {
         this.chatModel = chatModel;

@@ -27,7 +27,7 @@ public class AiConfig {
                 .build();
 
         return ChatClient.builder(chatModel)
-                .defaultAdvisors((Advisor) memoryAdvisor)
+                .defaultAdvisors(memoryAdvisor)
                 .build();
     }
 }

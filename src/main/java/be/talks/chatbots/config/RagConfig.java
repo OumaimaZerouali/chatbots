@@ -7,10 +7,6 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Creates the VectorStore bean backed by Ollama embeddings.
- * This store will live in memory for the life of the app.
- */
 @Configuration
 public class RagConfig {
 
