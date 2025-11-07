@@ -7,6 +7,12 @@ spring:
       embedding:
         options:
           model: nomic-embed-text:latest
+    vectorstore:
+      qdrant:
+        initialize-schema: true
+        host: localhost
+        port: 6334
+        collection-name: chatbots
   datasource:
     url: jdbc:h2:mem:chatbotdb
     driver-class-name: org.h2.Driver

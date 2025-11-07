@@ -42,11 +42,11 @@ public class ChatBotController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping(value = "/bot-factory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<BotCreationResponseDTO> createBot(@ModelAttribute BotCreationRequestDTO botCreationRequestDto) {
-        var response = chatBotService.createBot(botCreationRequestDto);
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping(value = "/bot-factory", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<BotCreationResponseDTO> createBot(@ModelAttribute BotCreationRequestDTO botCreationRequestDto) {
+//        var response = chatBotService.createBot(botCreationRequestDto);
+//        return ResponseEntity.ok(response);
+//    }
 
     @PostMapping("/chat")
     public ResponseEntity<ChatResponseDTO> chat(@RequestBody ChatRequestDTO chatRequestDto) {
