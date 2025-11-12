@@ -27,11 +27,13 @@ public class ChatBotService {
     private final ChatClient chatClient;
     private final OllamaChatModel chatModel;
     private final ChatBotRepository chatBotRepository;
+    private final PromptGeneratorService promptGeneratorService;
 
-    public ChatBotService(OllamaChatModel chatModel, ChatClient chatClient, ChatBotRepository chatBotRepository) {
+    public ChatBotService(OllamaChatModel chatModel, ChatClient chatClient, ChatBotRepository chatBotRepository, PromptGeneratorService promptGeneratorService) {
         this.chatModel = chatModel;
         this.chatClient = chatClient;
         this.chatBotRepository = chatBotRepository;
+        this.promptGeneratorService = promptGeneratorService;
     }
 
     public GenieResponse generateJUnitTest(GenieRequest request) {
@@ -123,29 +125,29 @@ public class ChatBotService {
         return new DuckResponse(reply == null ? "" : reply.trim());
     }
 
-//    public BotCreationResponseDTO createBot(BotCreationRequestDTO botCreationRequestDto) {
-//        String botId = UUID.randomUUID().toString();
-//
-//        BotConfigEntity config = BotConfigEntity.builder()
-//                .configId(botId)
-//                .name(botCreationRequestDto.getName())
-//                .personality(botCreationRequestDto.getPersonality())
-//                .purpose(botCreationRequestDto.getPurpose())
-//                .restrictions(botCreationRequestDto.getRestrictions())
-//                .build();
-//
-//        String systemPrompt = promptGeneratorService.generatePrompt(config, botCreationRequestDto.getFile());
-//        config.setSystemPrompt(systemPrompt);
-//
-//        chatBotRepository.save(config);
-//
-//        return BotCreationResponseDTO.builder()
-//                .id(botId)
-//                .name(botCreationRequestDto.getName())
-//                .message("Bot created successfully! Start chatting!")
-//                .systemPrompt(systemPrompt)
-//                .build();
-//    }
+    public BotCreationResponseDTO createBot(BotCreationRequestDTO botCreationRequestDto) {
+        String botId = UUID.randomUUID().toString();
+
+        BotConfigEntity config = BotConfigEntity.builder()
+                .configId(botId)
+                .name(botCreationRequestDto.getName())
+                .personality(botCreationRequestDto.getPersonality())
+                .purpose(botCreationRequestDto.getPurpose())
+                .restrictions(botCreationRequestDto.getRestrictions())
+                .build();
+
+        String systemPrompt = promptGeneratorService.generatePrompt(config, botCreationRequestDto.getFile());
+        config.setSystemPrompt(systemPrompt);
+
+        chatBotRepository.save(config);
+
+        return BotCreationResponseDTO.builder()
+                .id(botId)
+                .name(botCreationRequestDto.getName())
+                .message("Bot created successfully! Start chatting!")
+                .systemPrompt(systemPrompt)
+                .build();
+    }
 
     public ChatResponseDTO chat(ChatRequestDTO chatRequestDto) {
         String convoId = chatRequestDto.getConversationId();
