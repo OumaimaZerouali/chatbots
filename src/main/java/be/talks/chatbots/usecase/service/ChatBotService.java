@@ -29,7 +29,7 @@ public class ChatBotService {
     private final ChatBotRepository chatBotRepository;
     private final PromptGeneratorService promptGeneratorService;
 
-    public ChatBotService(OllamaChatModel chatModel, ChatClient chatClient, PromptGeneratorService promptGeneratorService, ChatBotRepository chatBotRepository) {
+    public ChatBotService(OllamaChatModel chatModel, ChatClient chatClient, ChatBotRepository chatBotRepository, PromptGeneratorService promptGeneratorService) {
         this.chatModel = chatModel;
         this.chatClient = chatClient;
         this.chatBotRepository = chatBotRepository;

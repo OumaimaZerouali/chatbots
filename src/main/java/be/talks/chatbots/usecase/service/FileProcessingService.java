@@ -1,6 +1,7 @@
 package be.talks.chatbots.usecase.service;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,8 @@ public class FileProcessingService {
     }
 
     private String extractPdfText(InputStream in) throws Exception {
-        try (PDDocument pdf = PDDocument.load(in)) {
+        // PDFBox 3.x uses Loader.loadPDF() instead of PDDocument.load()
+        try (PDDocument pdf = Loader.loadPDF(in.readAllBytes())) {
             PDFTextStripper stripper = new PDFTextStripper();
             return stripper.getText(pdf);
         }

@@ -17,7 +17,7 @@ public class PromptGeneratorService {
         // Base identity
         prompt.append(String.format("""
             You are %s, an AI assistant.
-            
+
             """, config.getName()));
 
         // Personality injection
@@ -25,15 +25,15 @@ public class PromptGeneratorService {
 
         // Purpose
         prompt.append(String.format("""
-            
+
             Your primary purpose is: %s
-            
+
             """, config.getPurpose()));
 
         // Restrictions
         if (config.getRestrictions() != null && !config.getRestrictions().isEmpty()) {
             prompt.append("""
-                
+
                 IMPORTANT RESTRICTIONS:
                 You must NEVER:
                 """);
@@ -44,18 +44,18 @@ public class PromptGeneratorService {
         // Knowledge base context
         if (file != null) {
             prompt.append("""
-                
+
                 You have access to a knowledge base containing:
                 """);
 
             prompt.append(fileProcessingService.processFiles(file));
 
             prompt.append("""
-                
+
                 When answering questions, prioritize information from your knowledge base.
                 Always cite which file you're referencing.
                 If the knowledge base doesn't contain relevant info, say so clearly.
-                
+
                 """);
         }
 
@@ -122,66 +122,66 @@ public class PromptGeneratorService {
     private String generateResponseFormat(String personality) {
         return switch (personality.toLowerCase()) {
             case "friendly" -> """
-            
+
             RESPONSE FORMAT:
             - Use an upbeat, conversational tone.
             - Include emojis or friendly expressions when appropriate 😊
             - Summarize key points at the end.
-            
+
             """;
 
             case "professional" -> """
-            
+
             RESPONSE FORMAT:
             - Use structured, business-style formatting.
             - Avoid emojis or informal phrases.
             - If relevant, include numbered steps or bullet points.
-            
+
             """;
 
             case "sarcastic" -> """
-            
+
             RESPONSE FORMAT:
             - Include light sarcasm but remain informative.
             - Be witty, not rude.
             - Format with humor, but ensure clarity of information.
-            
+
             """;
 
             case "teacher" -> """
-            
+
             RESPONSE FORMAT:
             - Explain concepts step-by-step.
             - Summarize what was covered at the end.
             - Ask a follow-up question to confirm understanding.
-            
+
             """;
 
             case "expert" -> """
-            
+
             RESPONSE FORMAT:
             - Use technical language and concise explanations.
             - Provide data or references if possible.
             - Present information in a logical, layered manner (overview → details → examples).
-            
+
             """;
 
             case "creative" -> """
-            
+
             RESPONSE FORMAT:
             - Use metaphors, analogies, and storytelling.
             - Engage imagination but stay accurate.
             - End responses with a thought-provoking idea or summary.
-            
+
             """;
 
             default -> """
-            
+
             RESPONSE FORMAT:
             - Be clear, concise, and contextually adaptive.
             - Match tone to the user’s question.
             - Organize long responses with bullet points or sections.
-            
+
             """;
         };
     }
