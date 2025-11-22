@@ -38,18 +38,18 @@ const FactoryPage: React.FC = () => {
     }
 
     return (
-        <div className="p-8 flex flex-col h-full bg-[#1E2430] text-white rounded-lg overflow-hidden">
-            <h2 className="text-3xl font-semibold mb-6">Bot Factory</h2>
+        <div className="p-8 flex flex-col h-full bg-black text-white overflow-hidden">
+            <h2 className="text-3xl font-bold mb-6 text-yellow-400">🏭 Bot Factory</h2>
 
             <div className="flex-1 overflow-y-auto pr-2">
                 {/* Bot Name */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2 text-gray-300">
-                        Bot Name <span className="text-red-400">*</span>
+                    <label className="block text-sm font-medium mb-2 text-gray-400">
+                        Bot Name <span className="text-yellow-400">*</span>
                     </label>
                     <input
                         type="text"
-                        className="w-full bg-[#0b1120] text-gray-300 placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60"
+                        className="w-full bg-zinc-900 text-gray-300 placeholder-gray-500 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60"
                         placeholder="My Custom Bot"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -59,12 +59,12 @@ const FactoryPage: React.FC = () => {
 
                 {/* Personality */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                    <label className="block text-sm font-medium mb-2 text-gray-400">
                         Personality
                     </label>
                     <input
                         type="text"
-                        className="w-full bg-[#0b1120] text-gray-300 placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60"
+                        className="w-full bg-zinc-900 text-gray-300 placeholder-gray-500 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60"
                         placeholder="Friendly and helpful"
                         value={personality}
                         onChange={(e) => setPersonality(e.target.value)}
@@ -74,11 +74,11 @@ const FactoryPage: React.FC = () => {
 
                 {/* Purpose */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                    <label className="block text-sm font-medium mb-2 text-gray-400">
                         Purpose
                     </label>
                     <textarea
-                        className="w-full bg-[#0b1120] text-gray-300 placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60"
+                        className="w-full bg-zinc-900 text-gray-300 placeholder-gray-500 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60"
                         placeholder="What is the purpose of this bot?"
                         value={purpose}
                         rows={3}
@@ -89,11 +89,11 @@ const FactoryPage: React.FC = () => {
 
                 {/* Restrictions */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                    <label className="block text-sm font-medium mb-2 text-gray-400">
                         Restrictions
                     </label>
                     <textarea
-                        className="w-full bg-[#0b1120] text-gray-300 placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60"
+                        className="w-full bg-zinc-900 text-gray-300 placeholder-gray-500 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60"
                         placeholder="Any restrictions or limitations?"
                         value={restrictions}
                         rows={3}
@@ -104,13 +104,13 @@ const FactoryPage: React.FC = () => {
 
                 {/* File Upload */}
                 <div className="mb-6">
-                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                    <label className="block text-sm font-medium mb-2 text-gray-400">
                         Upload Document (Optional)
                     </label>
                     <div className="relative">
                         <input
                             type="file"
-                            className="w-full bg-[#0b1120] text-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700"
+                            className="w-full bg-zinc-900 text-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-400 file:text-black hover:file:bg-yellow-300"
                             onChange={(e) => setFile(e.target.files?.[0] || null)}
                             disabled={pending}
                             accept=".txt,.pdf,.doc,.docx"
@@ -126,7 +126,7 @@ const FactoryPage: React.FC = () => {
                 <button
                     onClick={createBot}
                     disabled={pending || !name.trim()}
-                    className="w-full bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-semibold transition disabled:opacity-50 mb-6"
+                    className="w-full bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition disabled:opacity-50 disabled:bg-zinc-700 disabled:text-gray-500 mb-6"
                 >
                     {pending ? "Creating Bot..." : "Create Bot"}
                 </button>
@@ -134,12 +134,12 @@ const FactoryPage: React.FC = () => {
                 {/* Response area */}
                 {response && (
                     <div className="mt-6">
-                        <label className="block text-sm font-medium mb-2 text-gray-300">
+                        <label className="block text-sm font-medium mb-2 text-gray-400">
                             Result:
                         </label>
-                        <div className="bg-[#0b1120] rounded-xl p-4 border border-gray-800">
+                        <div className="bg-zinc-900 rounded-lg p-4 border-2 border-zinc-800">
                             {response.message && (
-                                <p className={`text-sm mb-2 ${response.id ? 'text-green-400' : 'text-yellow-400'}`}>
+                                <p className={`text-sm mb-2 ${response.id ? 'text-yellow-400' : 'text-yellow-400'}`}>
                                     {response.message}
                                 </p>
                             )}

@@ -14,14 +14,16 @@ const Sidebar: React.FC<SidebarProps> = ({ selected, onSelect }) => {
     ];
 
     return (
-        <div className="w-64 bg-gray-900 text-white flex flex-col p-4">
-            <h1 className="text-xl font-bold mb-8">ChatBot Dashboard</h1>
+        <div className="w-64 bg-zinc-900 border-r-2 border-zinc-800 text-white flex flex-col p-4">
+            <h1 className="text-xl font-bold mb-8 text-yellow-400">ChatBot Studio</h1>
             <ul className="space-y-2">
                 {menu.map(item => (
                     <li
                         key={item.id}
-                        className={`cursor-pointer p-3 rounded ${
-                            selected === item.id ? "bg-gray-700" : "hover:bg-gray-800"
+                        className={`cursor-pointer p-3 rounded-lg transition-all ${
+                            selected === item.id 
+                                ? "bg-yellow-400 text-black font-medium" 
+                                : "hover:bg-zinc-800 hover:text-yellow-400 border-2 border-transparent hover:border-zinc-700"
                         }`}
                         onClick={() => onSelect(item.id)}
                     >

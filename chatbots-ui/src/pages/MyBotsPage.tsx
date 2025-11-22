@@ -121,7 +121,7 @@ const MyBotsPage: React.FC = () => {
             {/* Chat Area */}
             <div className="flex-1 flex flex-col overflow-hidden">
                 {!selectedBot ? (
-                    <div className="flex-1 flex items-center justify-center bg-[#0b1120] rounded-xl border border-gray-800">
+                    <div className="flex-1 flex items-center justify-center bg-zinc-900 rounded-lg border-2 border-zinc-800">
                         <div className="text-center text-gray-400">
                             <div className="text-4xl mb-4">💬</div>
                             <p>Select a bot from the list to start chatting</p>
@@ -130,24 +130,24 @@ const MyBotsPage: React.FC = () => {
                 ) : (
                     <>
                         {/* Chat Header */}
-                        <div className="bg-[#0b1120] rounded-t-xl p-4 border border-gray-800 border-b-0">
-                            <h2 className="text-xl font-semibold">{selectedBot.name}</h2>
+                        <div className="bg-zinc-900 rounded-t-lg p-4 border-2 border-zinc-800 border-b-0">
+                            <h2 className="text-xl font-bold text-yellow-400">{selectedBot.name}</h2>
                             <p className="text-xs text-gray-400 mt-1">Bot ID: {selectedBot.id}</p>
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 bg-[#0b1120] p-4 space-y-4 overflow-y-auto border-l border-r border-gray-800">
+                        <div className="flex-1 bg-zinc-900 p-4 space-y-4 overflow-y-auto border-l-2 border-r-2 border-zinc-800">
                             {messages.map((m, i) => (
                                 <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                                     <div
-                                        className={`p-3 rounded-xl w-fit max-w-md ${
-                                            m.role === "user" ? "bg-purple-600" : "bg-[#1e1b4b]"
+                                        className={`p-3 rounded-lg w-fit max-w-md ${
+                                            m.role === "user" ? "bg-yellow-400 text-black" : "bg-zinc-800 border-2 border-zinc-700"
                                         }`}
                                     >
                                         <p className="whitespace-pre-wrap break-words">{m.text}</p>
                                         <span
                                             className={`text-xs block mt-1 ${
-                                                m.role === "user" ? "text-gray-300 text-right" : "text-gray-400"
+                                                m.role === "user" ? "text-black/70 text-right" : "text-gray-500"
                                             }`}
                                         >
                                             {m.time}
@@ -158,13 +158,13 @@ const MyBotsPage: React.FC = () => {
 
                             {pending && (
                                 <div className="flex justify-start">
-                                    <div className="bg-[#1e1b4b] p-3 rounded-lg w-fit max-w-md">...</div>
+                                    <div className="bg-zinc-800 border-2 border-zinc-700 p-3 rounded-lg w-fit max-w-md">...</div>
                                 </div>
                             )}
                         </div>
 
                         {/* Input Area */}
-                        <div className="bg-[#0b1120] rounded-b-xl p-4 flex items-center gap-2 border border-gray-800 border-t-0">
+                        <div className="bg-zinc-900 rounded-b-lg p-4 flex items-center gap-2 border-2 border-zinc-800 border-t-0">
                             <input
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
@@ -172,14 +172,14 @@ const MyBotsPage: React.FC = () => {
                                 type="text"
                                 placeholder="Type your message..."
                                 disabled={pending}
-                                className="flex-1 bg-[#1E2430] text-gray-300 placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60"
+                                className="flex-1 bg-black text-gray-300 placeholder-gray-500 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60"
                             />
                             <button
                                 onClick={submit}
                                 disabled={pending || !message.trim()}
-                                className="bg-purple-600 hover:bg-purple-700 p-3 rounded-xl flex items-center justify-center disabled:opacity-50 transition"
+                                className="bg-yellow-400 hover:bg-yellow-300 text-black p-3 rounded-lg flex items-center justify-center disabled:opacity-50 disabled:bg-zinc-700 transition"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24"
                                      fill="none" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14M12 5l7 7-7 7"/>
                                 </svg>

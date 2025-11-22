@@ -30,16 +30,16 @@ const GeniePage: React.FC = () => {
     }
 
     return (
-        <div className="p-8 flex flex-col h-full bg-[#1E2430] text-white rounded-lg overflow-hidden">
-            <h2 className="text-3xl font-semibold mb-6">Genie Test Generator</h2>
+        <div className="p-8 flex flex-col h-full bg-black text-white overflow-hidden">
+            <h2 className="text-3xl font-bold mb-6 text-yellow-400">🧞 Genie Test Generator</h2>
 
             {/* Input area */}
             <div className="mb-4">
-                <label className="block text-sm font-medium mb-2 text-gray-300">
+                <label className="block text-sm font-medium mb-2 text-gray-400">
                     Paste your Java method here:
                 </label>
                 <textarea
-                    className="w-full bg-[#0b1120] text-gray-300 placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60"
+                    className="w-full bg-zinc-900 text-gray-300 placeholder-gray-500 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60"
                     placeholder="public int add(int a, int b) { return a + b; }"
                     value={code}
                     rows={10}
@@ -51,7 +51,7 @@ const GeniePage: React.FC = () => {
             <button
                 onClick={generateTest}
                 disabled={pending || !code.trim()}
-                className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-semibold transition disabled:opacity-50 mb-6"
+                className="bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition disabled:opacity-50 disabled:bg-zinc-700 disabled:text-gray-500 mb-6"
             >
                 {pending ? "Generating..." : "Generate Test"}
             </button>
@@ -59,10 +59,10 @@ const GeniePage: React.FC = () => {
             {/* Output area */}
             {generatedTest && (
                 <div className="flex-1 overflow-hidden flex flex-col">
-                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                    <label className="block text-sm font-medium mb-2 text-gray-400">
                         Generated Test:
                     </label>
-                    <div className="flex-1 bg-[#0b1120] rounded-xl p-4 overflow-y-auto border border-gray-800">
+                    <div className="flex-1 bg-zinc-900 rounded-lg p-4 overflow-y-auto border-2 border-zinc-800">
                         <pre className="text-gray-300 text-sm whitespace-pre-wrap break-words">
                             {generatedTest}
                         </pre>
@@ -71,7 +71,7 @@ const GeniePage: React.FC = () => {
             )}
 
             {pending && !generatedTest && (
-                <div className="flex-1 bg-[#0b1120] rounded-xl p-4 flex items-center justify-center border border-gray-800">
+                <div className="flex-1 bg-zinc-900 rounded-lg p-4 flex items-center justify-center border-2 border-zinc-800">
                     <div className="text-gray-400">Generating your test...</div>
                 </div>
             )}

@@ -40,20 +40,22 @@ const DuckPage: React.FC = () => {
     }
 
     return (
-        <div className="p-8 flex flex-col h-full bg-[#1E2430] text-white rounded-lg overflow-hidden">
+        <div className="p-8 flex flex-col h-full bg-black text-white overflow-hidden">
+            <h2 className="text-3xl font-bold mb-6 text-yellow-400">🦆 Duck Debugger</h2>
+
             {/* Chat area */}
-            <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+            <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-zinc-900 rounded-lg border-2 border-zinc-800">
                 {messages.map((m, i) => (
                     <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                         <div
-                            className={`p-3 rounded-xl w-fit max-w-md ${
-                                m.role === "user" ? "bg-purple-600" : "bg-[#1e1b4b]"
+                            className={`p-3 rounded-lg w-fit max-w-md ${
+                                m.role === "user" ? "bg-yellow-400 text-black" : "bg-zinc-800 text-white border-2 border-zinc-700"
                             }`}
                         >
                             <p className="whitespace-pre-wrap break-words">{m.text}</p>
                             <span
                                 className={`text-xs block mt-1 ${
-                                    m.role === "user" ? "text-gray-300 text-right" : "text-gray-400"
+                                    m.role === "user" ? "text-black/70 text-right" : "text-gray-500"
                                 }`}
                             >
                 {m.time}
@@ -64,28 +66,29 @@ const DuckPage: React.FC = () => {
 
                 {pending && (
                     <div className="flex justify-start">
-                        <div className="bg-[#1e1b4b] p-3 rounded-lg w-fit max-w-md">...</div>
+                        <div className="bg-zinc-800 border-2 border-zinc-700 p-3 rounded-lg w-fit max-w-md">...</div>
                     </div>
                 )}
             </div>
 
             {/* Input area */}
-            <div className="p-4 flex items-center gap-2">
+            <div className="mt-4 flex items-center gap-2">
                 <input
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && submit()}
                     type="text"
                     placeholder="Ask me about anything..."
                     disabled={pending}
-                    className="flex-1 bg-[#0b1120] text-gray-300 placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none border border-gray-800 focus:border-purple-600 transition disabled:opacity-60"
+                    className="flex-1 bg-zinc-900 text-gray-300 placeholder-gray-500 rounded-lg px-4 py-3 text-sm focus:outline-none border-2 border-zinc-800 focus:border-yellow-400 transition disabled:opacity-60"
                 />
                 <button
                     onClick={submit}
                     disabled={pending || !message.trim()}
-                    className="bg-purple-600 hover:bg-purple-700 p-3 rounded-xl flex items-center justify-center disabled:opacity-50"
+                    className="bg-yellow-400 hover:bg-yellow-300 text-black p-3 rounded-lg flex items-center justify-center disabled:opacity-50 disabled:bg-zinc-700"
                 >
                     {/* simple send icon */}
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 24 24"
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24"
                          fill="none" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
