@@ -22,7 +22,6 @@ public class RagConfig {
 
     @Bean("ragChatClient")
     public ChatClient chatClient(ChatClient.Builder clientBuilder,
-                                 RetrievalAugmentationAdvisor retrievalAugmentationAdvisor,
                                  @Qualifier("ragChatMemory") ChatMemory chatMemory) {
         Advisor loggerAdvisor = new SimpleLoggerAdvisor();
         var memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
@@ -30,19 +29,7 @@ public class RagConfig {
 
         return clientBuilder
                 .defaultAdvisors(List.of(loggerAdvisor,
-                        retrievalAugmentationAdvisor,
                         memoryAdvisor))
-                .build();
-    }
-
-    /**
-     * This bean will retrieve the important documents from the vector store.
-     **/
-    @Bean
-    RetrievalAugmentationAdvisor retrievalAugmentationAdvisor(VectorStore vectorStore) {
-        return RetrievalAugmentationAdvisor.builder()
-                .documentRetriever(VectorStoreDocumentRetriever.builder().vectorStore(vectorStore)
-                        .topK(3).similarityThreshold(0.5).build())
                 .build();
     }
 

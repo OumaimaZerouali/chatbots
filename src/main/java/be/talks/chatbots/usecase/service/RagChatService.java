@@ -6,14 +6,15 @@ import be.talks.chatbots.adapter.controller.dto.ChatRequestDTO;
 import be.talks.chatbots.adapter.controller.dto.ChatResponseDTO;
 import be.talks.chatbots.adapter.repository.BotConfigEntity;
 import be.talks.chatbots.adapter.repository.ChatBotRepository;
-import jakarta.persistence.EntityNotFoundException;
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.grpc.Collections;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
-import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ai.vectorstore.qdrant.QdrantVectorStore;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
@@ -25,25 +26,22 @@ import java.util.UUID;
 public class RagChatService {
 
     private final ChatClient chatClient;
-    private final VectorStore vectorStore;
     private final ChatBotRepository chatBotRepository;
+    private final QdrantClient qdrantClient;
+    private final EmbeddingModel embeddingModel;
 
-    public RagChatService(@Qualifier("ragChatClient") ChatClient chatClient, VectorStore vectorStore, ChatBotRepository chatBotRepository) {
+    public RagChatService(ChatClient chatClient, ChatBotRepository chatBotRepository, QdrantClient qdrantClient, EmbeddingModel embeddingModel) {
         this.chatClient = chatClient;
-        this.vectorStore = vectorStore;
         this.chatBotRepository = chatBotRepository;
-    }
-
-    public String randomChat(String message) {
-        return chatClient.prompt()
-                .user(message)
-                .call().content();
+        this.qdrantClient = qdrantClient;
+        this.embeddingModel = embeddingModel;
     }
 
     public BotCreationResponseDTO createBot(BotCreationRequestDTO botCreationRequestDto) throws IOException {
         String botId = UUID.randomUUID().toString();
 
-        extracted(botCreationRequestDto);
+        createQdrantCollection(botCreationRequestDto.getName());
+        storeDocumentsInCollection(botCreationRequestDto);
 
         BotConfigEntity config = BotConfigEntity.builder()
                 .configId(botId)
@@ -62,37 +60,56 @@ public class RagChatService {
                 .build();
     }
 
-    private void extracted(BotCreationRequestDTO botCreationRequestDto) throws IOException {
-        InputStreamResource resource = new InputStreamResource(botCreationRequestDto.getFile().getInputStream());
-        TikaDocumentReader tikaDocumentReader = new TikaDocumentReader(resource);
-        List<Document> docs = tikaDocumentReader.get();
-        /** Split the document in to chunks, this is needed for token usages. **/
-        TextSplitter textSplitter =
-                TokenTextSplitter.builder().withChunkSize(100).withMaxNumChunks(400).build();
-        vectorStore.add(textSplitter.split(docs));
-    }
-
     public ChatResponseDTO chat(ChatRequestDTO chatRequestDto) {
         String convoId = chatRequestDto.getConversationId();
 
-        BotConfigEntity config = chatBotRepository.findById(chatRequestDto.getBotId()).orElse(null);
+        // Fetch bot configuration
+        BotConfigEntity botConfig = chatBotRepository.findBotConfigEntitiesByName(chatRequestDto.getCollectionName())
+                .orElseThrow(() -> new RuntimeException("Bot not found"));
 
-        if (config == null) {
-            throw new EntityNotFoundException("BotConfig not found for id: " + chatRequestDto.getBotId());
-        }
+        // Build system prompt
+        String systemPrompt = buildSystemPrompt(
+                botConfig.getPersonality(),
+                botConfig.getPurpose(),
+                botConfig.getRestrictions()
+        );
 
-        String systemPrompt = buildSystemPrompt(config.getPersonality(), config.getPurpose(), config.getRestrictions());
+        // Create a VectorStore instance for the specific collection
+        QdrantVectorStore vectorStore = QdrantVectorStore.builder(qdrantClient, embeddingModel)
+                .collectionName(chatRequestDto.getCollectionName())
+                .initializeSchema(false)
+                .build();
 
-        String reply = chatClient
-                .prompt()
-                .advisors(a -> a.param("conversationId", convoId))
+        // Search for similar documents in the collection
+        List<Document> similarDocuments = vectorStore.similaritySearch(chatRequestDto.getQuestion());
+
+        // Build context from retrieved documents
+        String context = similarDocuments.stream()
+                .map(Document::getFormattedContent)
+                .reduce("", (acc, content) -> acc + "\n" + content);
+
+        // Use ChatClient to generate answer based on context
+        String answer = chatClient.prompt()
                 .system(systemPrompt)
-                .user(chatRequestDto.getQuestion())
+                .advisors(a -> a.param("conversationId", convoId))
+                .user(userSpec -> userSpec
+                        .text("""
+                                Based on the following context, answer the question.
+                                If the answer cannot be found in the context, say so.
+                                
+                                Context: {context}
+                                
+                                Question: {question}
+                                
+                                Answer the question using only the context provided. If you cannot answer based on the context, say "Sorry, but I don't have information about that topic."
+                                """)
+                        .param("context", context)
+                        .param("question", chatRequestDto.getQuestion()))
                 .call()
                 .content();
 
         return ChatResponseDTO.builder()
-                .message(reply == null ? "" : reply.trim())
+                .message(answer == null ? "" : answer.trim())
                 .build();
     }
 
@@ -111,6 +128,14 @@ public class RagChatService {
             prompt.append("Restrictions: ").append(restrictions);
         }
 
+        prompt.append("""
+            Important Instructions:
+            - Answer questions directly and concisely based on the provided context
+            - If the information is not in the context, simply say "Sorry, but I don't have information about that topic"
+            - Do not analyze or explain what is or isn't in the context
+            - Keep responses brief and natural
+            """);
+
         return prompt.toString().trim();
     }
 
@@ -122,5 +147,42 @@ public class RagChatService {
                         .systemPrompt(bot.getSystemPrompt())
                         .build())
                 .toList();
+    }
+
+    public void createQdrantCollection(String collectionName) {
+        try {
+            qdrantClient.createCollectionAsync(
+                    collectionName,
+                    Collections.VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Collections.Distance.Cosine)
+                            .build()
+            ).get();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create Qdrant collection: " + collectionName, e);
+        }
+    }
+
+    public void storeDocumentsInCollection(BotCreationRequestDTO botCreationRequestDTO) throws IOException {
+        // Read the uploaded file
+        InputStreamResource resource = new InputStreamResource(botCreationRequestDTO.getFile().getInputStream());
+        TikaDocumentReader tikaDocumentReader = new TikaDocumentReader(resource);
+        List<Document> docs = tikaDocumentReader.get();
+
+        // Split documents into chunks
+        TextSplitter textSplitter = TokenTextSplitter.builder()
+                .withChunkSize(100)
+                .withMaxNumChunks(400)
+                .build();
+        List<Document> chunks = textSplitter.split(docs);
+
+        // Create a VectorStore instance for this specific collection
+        QdrantVectorStore botVectorStore = QdrantVectorStore.builder(qdrantClient, embeddingModel)
+                .collectionName(botCreationRequestDTO.getName())
+                .initializeSchema(true)
+                .build();
+
+        // Store documents in the bot-specific collection
+        botVectorStore.add(chunks);
     }
 }

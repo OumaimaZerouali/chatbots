@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ChatBotRepository extends JpaRepository<BotConfigEntity, Integer> {
     Optional<BotConfigEntity> findById(Integer id);
     List<BotConfigEntity> findByNameContainingIgnoreCase(String name);
+    Optional<BotConfigEntity> findBotConfigEntitiesByName(String name);
 }

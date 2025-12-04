@@ -14,6 +14,7 @@ import lombok.Setter;
 public class ChatRequestDTO {
 
     private Integer botId;
+    private String collectionName;
     private String conversationId;
     private String question;
 }
